@@ -17,10 +17,14 @@ final class APICaller {
         static let topHeadLinesURL = URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=7a1a9152303a48838762880686feca87")
         
         static let searchBarUrlString = "https://newsapi.org/v2/everything?sortedBy=popularity&apiKey=7a1a9152303a48838762880686feca87&q="
+        
+        static let countryCodeUrlString = "https://newsapi.org/v2/top-headlines?apiKey=7a1a9152303a48838762880686feca87&country="
+        
+        
     }
     
     init() {}
-    
+    	
     public func getTopStroies(completion: @escaping (Result<[Articles], Error>) -> Void) {
         
         guard let url = Constants.topHeadLinesURL else {
@@ -74,4 +78,35 @@ final class APICaller {
         }
         task.resume()
     }
+    
+    public func countryCode(with code: String, completion: @escaping (Result<[Articles], Error>) -> Void) {
+        
+        guard !code.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        let urlString = Constants.countryCodeUrlString + code
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            else if let data = data {
+                
+                do {
+                    let result = try JSONDecoder().decode(APIResponse.self, from: data)
+                    print("Articles: \(result.articles.count)")
+                    completion(.success(result.articles))
+                    
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+        }
+        task.resume()
+    }
+    
+
 }

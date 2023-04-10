@@ -11,18 +11,41 @@
         <!--News View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="NewsViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newsViewID" id="BYZ-38-t0r" customClass="NewsViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="sR9-qc-rI5"/>
+                    <navigationItem key="navigationItem" id="sR9-qc-rI5">
+                        <barButtonItem key="rightBarButtonItem" title="Countries" id="wRf-tV-joe">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="countriesButtonPressed:" destination="BYZ-38-t0r" id="bOw-Fe-ibL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="70.982142857142847"/>
+        </scene>
+        <!--Side Menu View Controller-->
+        <scene sceneID="rub-00-5WB">
+            <objects>
+                <viewController id="E9F-VQ-qxC" customClass="SideMenuViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wYU-IU-A0d">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="QsO-0d-xrl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="8Tb-Q0-56o"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d6D-gj-iHf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2987" y="71"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9GZ-zG-DET">
@@ -41,6 +64,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c2q-6K-3iA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="70.982142857142847"/>
+        </scene>
+        <!--Side Menu Navigation Controller-->
+        <scene sceneID="Msz-6O-kaJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fzf-dN-rcS" customClass="SideMenuNavigationController" customModule="SideMenu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="5VE-5L-lQK"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zax-hF-eqO">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="E9F-VQ-qxC" kind="relationship" relationship="rootViewController" id="avI-fO-vmK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q8K-gN-9Sl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2135" y="71"/>
         </scene>
     </scenes>
     <resources>

@@ -7,10 +7,14 @@
 
 import UIKit
 import SafariServices
+import SideMenu
 
 
 class NewsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-    
+
+    var countryCod = ""
+    var categoryName = ""
+    var menu: SideMenuNavigationController?
     private let tableView: UITableView = {
         
         let table = UITableView()
@@ -25,6 +29,10 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        menu = SideMenuNavigationController(rootViewController: SideMenuViewController())
+        SideMenuManager.default.rightMenuNavigationController = menu
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+        
         title = "News"
         view.addSubview(tableView)
         tableView.delegate = self
@@ -33,6 +41,8 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         fetchTopStories()
         createSearchBar()
+        countryCodeNews()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -80,7 +90,10 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier, for: indexPath) as? NewsTableViewCell else {
             fatalError()
         }
-        cell.configure(with: viewModels[indexPath.row])
+        
+        DispatchQueue.main.async { [self] in
+            cell.configure(with: viewModels[indexPath.row])
+        }
         return cell
     }
 
@@ -126,6 +139,42 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
+    
+    @IBAction func countriesButtonPressed(_ sender: Any) {
+        
+        present(menu!, animated: true)
+    }
+    
+    func countryCodeNews() {
+        
+        if let text: String? = countryCod {
+            
+            APICaller.shared.countryCode(with: text!) { [weak self] result in
+                switch result {
+                case .success(let articles):
+                    self?.articles = articles
+                    self?.viewModels = articles.compactMap({
+                        NewsTableViewCellViewModel(
+                            title: $0.title,
+                            subtitle: $0.description ?? "No Description",
+                            imageURL: URL(string: $0.urlToImage ?? "")
+                        )
+                    })
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        } else {
+            return
+        }
 
+    }
+    
+    
 }
+
+
 
